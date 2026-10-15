@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --font-body: 'DM Sans', 'Avenir Next', sans-serif;
+  --font-heading: 'Space Grotesk', 'Avenir Next', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --color-ink: #18382e;
+  --color-fern: #326e55;
+  --color-muted: #687d73;
+  --color-paper: #f3f6f1;
+  --color-white: #fff;
+  --color-line: #d8e1d9;
+  --color-lime: #cbf36a;
+  --color-sky: #dff0f4;
+  --color-coral: #d9684d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--color-paper);
+  background-image: radial-gradient(rgba(24, 56, 46, 0.055) 0.7px, transparent 0.7px);
+  background-size: 20px 20px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(50, 110, 85, 0.5);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
