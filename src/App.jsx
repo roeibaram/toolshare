@@ -12,16 +12,28 @@ function App() {
   const [activeView, setActiveView] = useState('browse')
   const [activeCategory, setActiveCategory] = useState('All tools')
   const [searchQuery, setSearchQuery] = useState('')
+  const [sortMode, setSortMode] = useState('recommended')
   const [requests, setRequests] = useState(readRequests)
   const [selectedTool, setSelectedTool] = useState(null)
   const [notice, setNotice] = useState('')
 
   const normalizedQuery = searchQuery.trim().toLowerCase()
-  const visibleTools = tools.filter((tool) => {
+  const filteredTools = tools.filter((tool) => {
     const matchesCategory = activeCategory === 'All tools' || tool.category === activeCategory
     const searchableText = `${tool.name} ${tool.category} ${tool.description} ${tool.neighborhood}`.toLowerCase()
 
     return matchesCategory && searchableText.includes(normalizedQuery)
+  })
+  const visibleTools = [...filteredTools].sort((firstTool, secondTool) => {
+    if (sortMode === 'price-low') {
+      return firstTool.dailyRate - secondTool.dailyRate || firstTool.name.localeCompare(secondTool.name)
+    }
+
+    if (sortMode === 'price-high') {
+      return secondTool.dailyRate - firstTool.dailyRate || firstTool.name.localeCompare(secondTool.name)
+    }
+
+    return 0
   })
 
   function handleCreateRequest(requestDetails) {
@@ -88,11 +100,21 @@ function App() {
                   value={searchQuery}
                 />
               </label>
-              <CategoryFilter
-                activeCategory={activeCategory}
-                categories={categories}
-                onCategoryChange={setActiveCategory}
-              />
+              <div className="catalog-controls__filter-row">
+                <CategoryFilter
+                  activeCategory={activeCategory}
+                  categories={categories}
+                  onCategoryChange={setActiveCategory}
+                />
+                <label className="catalog-controls__sort">
+                  <span>Sort</span>
+                  <select onChange={(event) => setSortMode(event.target.value)} value={sortMode}>
+                    <option value="recommended">Recommended</option>
+                    <option value="price-low">Price: low to high</option>
+                    <option value="price-high">Price: high to low</option>
+                  </select>
+                </label>
+              </div>
             </section>
 
             {visibleTools.length ? (
