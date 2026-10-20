@@ -47,7 +47,7 @@ export function RequestDialog({ onClose, onSubmit, tool }) {
       return
     }
 
-    onSubmit({
+    const wasCreated = onSubmit({
       toolId: tool.id,
       toolName: tool.name,
       owner: tool.owner,
@@ -57,6 +57,10 @@ export function RequestDialog({ onClose, onSubmit, tool }) {
       dailyRate: tool.dailyRate,
       estimatedTotal: tool.dailyRate * borrowDays
     })
+
+    if (wasCreated === false) {
+      setErrorMessage('You already have a pending request for this tool during those dates.')
+    }
   }
 
   return (

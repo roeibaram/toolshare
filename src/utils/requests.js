@@ -1,5 +1,14 @@
 const REQUESTS_STORAGE_KEY = 'toolshare.requests.v1'
 
+export function hasPendingRequestOverlap(requests, candidate) {
+  return requests.some((request) => (
+    request.toolId === candidate.toolId
+    && request.status === 'Pending'
+    && candidate.pickupDate <= request.returnDate
+    && candidate.returnDate >= request.pickupDate
+  ))
+}
+
 export function readRequests() {
   try {
     const storedValue = window.localStorage.getItem(REQUESTS_STORAGE_KEY)

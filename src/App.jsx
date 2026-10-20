@@ -5,7 +5,7 @@ import { RequestDialog } from './components/RequestDialog/RequestDialog'
 import { RequestList } from './components/RequestList/RequestList'
 import { ToolCard } from './components/ToolCard/ToolCard'
 import { categories, tools } from './data/tools'
-import { readRequests, writeRequests } from './utils/requests'
+import { hasPendingRequestOverlap, readRequests, writeRequests } from './utils/requests'
 import './App.css'
 
 function App() {
@@ -37,6 +37,10 @@ function App() {
   })
 
   function handleCreateRequest(requestDetails) {
+    if (hasPendingRequestOverlap(requests, requestDetails)) {
+      return false
+    }
+
     const nextRequests = [
       {
         ...requestDetails,
@@ -53,6 +57,7 @@ function App() {
     setActiveView('requests')
     setNotice(wasSaved ? 'Request sent to the lender.' : 'Request added for this session only.')
     window.setTimeout(() => setNotice(''), 3200)
+    return true
   }
 
   function handleCancelRequest(requestId) {
