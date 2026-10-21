@@ -16,12 +16,20 @@ function getBorrowDays(pickupDate, returnDate) {
 function addDays(date, days) {
   const nextDate = new Date(date)
   nextDate.setDate(nextDate.getDate() + days)
-  return nextDate.toISOString().slice(0, 10)
+  return formatLocalDate(nextDate)
+}
+
+function formatLocalDate(date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
 }
 
 export function RequestDialog({ onClose, onSubmit, tool }) {
-  const today = new Date().toISOString().slice(0, 10)
-  const defaultReturnDate = addDays(new Date(), 1)
+  const now = new Date()
+  const today = formatLocalDate(now)
+  const defaultReturnDate = addDays(now, 1)
   const [pickupDate, setPickupDate] = useState(today)
   const [returnDate, setReturnDate] = useState(defaultReturnDate)
   const [note, setNote] = useState('')
