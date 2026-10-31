@@ -90,7 +90,17 @@ export function RequestDialog({ onClose, onSubmit, tool }) {
           <div className="request-form__dates">
             <label className="request-form__field">
               <span>Pickup date</span>
-              <input min={today} onChange={(event) => setPickupDate(event.target.value)} required type="date" value={pickupDate} />
+              <input
+                min={today}
+                onChange={(event) => {
+                  const nextPickupDate = event.target.value
+                  setPickupDate(nextPickupDate)
+                  if (returnDate < nextPickupDate) setReturnDate(nextPickupDate)
+                }}
+                required
+                type="date"
+                value={pickupDate}
+              />
             </label>
             <label className="request-form__field">
               <span>Return date</span>
