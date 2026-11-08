@@ -10,6 +10,14 @@ function formatDate(value) {
 }
 
 export function RequestList({ onBrowse, onCancelRequest, requests }) {
+  function handleCancelRequest(request) {
+    const shouldCancel = window.confirm(`Cancel your request for ${request.toolName}?`)
+
+    if (shouldCancel) {
+      onCancelRequest(request.id)
+    }
+  }
+
   if (!requests.length) {
     return (
       <section className="request-list__empty">
@@ -25,7 +33,9 @@ export function RequestList({ onBrowse, onCancelRequest, requests }) {
     <section className="request-list" aria-label="Your borrowing requests">
       <div className="request-list__heading">
         <h2>Borrowing activity</h2>
-        <span>{requests.length} request{requests.length === 1 ? '' : 's'}</span>
+        <span role="status" aria-live="polite">
+          {requests.length} request{requests.length === 1 ? '' : 's'}
+        </span>
       </div>
       <div className="request-list__items">
         {requests.map((request) => (
@@ -44,7 +54,12 @@ export function RequestList({ onBrowse, onCancelRequest, requests }) {
             </div>
             <div className="request-item__side">
               <span className="request-item__estimate">Est. ${request.estimatedTotal}</span>
-              <button className="request-item__cancel" onClick={() => onCancelRequest(request.id)} type="button">
+              <button
+                aria-label={`Cancel request for ${request.toolName}`}
+                className="request-item__cancel"
+                onClick={() => handleCancelRequest(request)}
+                type="button"
+              >
                 <Trash2 aria-hidden="true" size={15} /> Cancel request
               </button>
             </div>
